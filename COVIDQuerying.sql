@@ -1,3 +1,5 @@
+-- Check our tables first
+
 SELECT *
 FROM [Portfolio Project]..CovidDeaths
 WHERE continent is not null
@@ -14,7 +16,7 @@ FROM [Portfolio Project]..CovidDeaths
 WHERE continent is not null
 ORDER BY 1,2
 
-
+-- Let's Begin Exploring the Data!
 -- 1) Looking at Total Cases vs Total Deaths
 -- Shows what percentage of cases resulted in death
 
@@ -44,7 +46,7 @@ ORDER BY CasePercentage desc
 
 -- 4) Looking at Countries with Highest Death Count
 
-SELECT location, population, MAX(cast(total_deaths AS int)) AS TotalDeathCount, MAX((total_deaths/population)*100) AS PopulationDeathPercentage
+SELECT location, population, MAX(CAST(total_deaths AS int)) AS TotalDeathCount, MAX((total_deaths/population)*100) AS PopulationDeathPercentage
 FROM [Portfolio Project]..CovidDeaths
 --WHERE location = 'United States'
 WHERE continent is not null
@@ -53,7 +55,7 @@ ORDER BY TotalDeathCount desc
 
 -- Simpler Version of Previous
 
-SELECT location, MAX(cast(total_deaths AS int)) AS TotalDeathCount
+SELECT location, MAX(CAST(total_deaths AS int)) AS TotalDeathCount
 FROM [Portfolio Project]..CovidDeaths
 --WHERE location = 'United States'
 WHERE continent is not null
@@ -65,7 +67,7 @@ ORDER BY TotalDeathCount desc
 
 -- Looking at Continents with Highest Death Count
 
-SELECT continent, MAX(cast(total_deaths AS int)) AS TotalDeathCount
+SELECT continent, MAX(CAST(total_deaths AS int)) AS TotalDeathCount
 FROM [Portfolio Project]..CovidDeaths
 --WHERE location = 'United States'
 WHERE continent is not null
@@ -75,7 +77,7 @@ ORDER BY TotalDeathCount desc
 -- Gives correct numbers for continents from previous query
 -- The above query looks correct, as it selects 'continent' instead of 'location', but the data is organized in such a way that selecting location and then filtering for 'null' in 'continent' actually gives the correct numbers.
 
-SELECT location, MAX(cast(total_deaths AS int)) AS TotalDeathCount
+SELECT location, MAX(CAST(total_deaths AS int)) AS TotalDeathCount
 FROM [Portfolio Project]..CovidDeaths
 --WHERE location = 'United States'
 WHERE continent is null
@@ -87,7 +89,7 @@ ORDER BY TotalDeathCount desc
 
 -- Looking at Total Global Numbers
 
-SELECT date, SUM(new_cases) AS TotalCases, SUM(cast(new_deaths AS int)) AS TotalDeaths, SUM(cast(new_deaths AS int))/SUM(new_cases)*100 AS DeathPercentage
+SELECT date, SUM(new_cases) AS TotalCases, SUM(CAST(new_deaths AS int)) AS TotalDeaths, SUM(CAST(new_deaths AS int))/SUM(new_cases)*100 AS DeathPercentage
 FROM [Portfolio Project]..CovidDeaths
 --WHERE location = 'United States'
 WHERE continent is not null
@@ -96,7 +98,7 @@ ORDER BY 1,2
 
 -- Simpler Version of Previous
 
-SELECT SUM(new_cases) AS TotalCases, SUM(cast(new_deaths AS int)) AS TotalDeaths, SUM(cast(new_deaths AS int))/SUM(new_cases)*100 AS DeathPercentage
+SELECT SUM(new_cases) AS TotalCases, SUM(CAST(new_deaths AS int)) AS TotalDeaths, SUM(CAST(new_deaths AS int))/SUM(new_cases)*100 AS DeathPercentage
 FROM [Portfolio Project]..CovidDeaths
 --WHERE location = 'United States'
 WHERE continent is not null
@@ -118,7 +120,7 @@ AND dea.location = 'United States'
 ORDER BY 2,3
 
 
--- USE CTE
+-- Using a CTE
 
 With PopvsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
 AS
